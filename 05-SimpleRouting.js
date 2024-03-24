@@ -1,16 +1,21 @@
-let http = require("http");
+let Http = require("http");
+let Fs = require("fs");
 
-let server = http.createServer((req, res) => {
+// ReadFile Using FileSystem Module
+let HTML = Fs.readFileSync("../CoreModule/Template/index.html", "utf-8");
+console.log(HTML);
+
+let Server = Http.createServer((req, res) => {
   let pathUrl = req.url.toLowerCase(); // Convert the URL to lowercase for easier comparison
 
   if (pathUrl === "/" || pathUrl === "/home") {
-    res.end("Welcome Home Page");
+    res.end(HTML.replace("{{%CONTENT%}}", "Welcome Home"));
     console.log("Home");
   } else if (pathUrl === "/about") {
-    res.end("Welcome To About Page");
+    res.end(HTML.replace("{{%CONTENT%}}", "Welcome About"));
     console.log("About");
   } else if (pathUrl === "/contact") {
-    res.end("Welcome To Contact Section");
+    res.end(HTML.replace("{{%CONTENT%}}", "Welcome Contact"));
     console.log("Contact");
   } else {
     res.statusCode = 404;
@@ -19,6 +24,6 @@ let server = http.createServer((req, res) => {
   }
 });
 
-server.listen(3000, "127.0.0.1", () => {
+Server.listen(3000, "127.0.0.1", () => {
   console.log("Server running at http://127.0.0.1:3000/");
 });
